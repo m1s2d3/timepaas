@@ -78,7 +78,7 @@ export default function App() {
 
         <div className="z-10 w-full max-w-4xl bg-white/10 backdrop-blur-md rounded-3xl shadow-2xl overflow-hidden border border-white/20 mx-4">
           <h1 className={`text-center text-4xl md:text-5xl font-bold text-white py-4 md:py-6 bg-gradient-to-r ${currentButtonTheme}`}>
-            Game Hub
+            Gaming Hub
           </h1>
 
           <div className="p-4 md:p-8">
