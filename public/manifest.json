@@ -3,11 +3,6 @@
   "name": "Tic Tac Toe Game",
   "icons": [
     {
-      "src": "developer.png",
-      "type": "image/png",
-      "sizes": "192x192"
-    },
-    {
       "src": "app-icon.png",
       "type": "image/png",
       "sizes": "192x192"
