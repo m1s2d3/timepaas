@@ -6,34 +6,30 @@ export default function SnakeGame() {
   const [score, setScore] = useState(0);
   const [highScore, setHighScore] = useState(0);
   const [restartKey, setRestartKey] = useState(0);
+  const [direction, setDirection] = useState("RIGHT");
+  
+  const gameState = useRef({
+    snake: [{ x: 9 * 20, y: 10 * 20 }],
+    food: {
+      x: Math.floor(Math.random() * 20) * 20,
+      y: Math.floor(Math.random() * 20) * 20,
+    }
+  });
 
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
-
     const box = 20;
     const canvasSize = 400;
-    const totalBoxes = canvasSize / box;
-
-    let snake = [{ x: 9 * box, y: 10 * box }];
-    let direction = "RIGHT";
-    let food = {
-      x: Math.floor(Math.random() * totalBoxes) * box,
-      y: Math.floor(Math.random() * totalBoxes) * box,
-    };
-
-    setGameOver(false);
-    setScore(0);
 
     const draw = () => {
       ctx.clearRect(0, 0, canvasSize, canvasSize);
 
-      // Draw snake with improved visuals
-      for (let i = 0; i < snake.length; i++) {
-        // Gradient effect for snake
+      // Draw snake
+      gameState.current.snake.forEach((segment, i) => {
         const gradient = ctx.createLinearGradient(
-          snake[i].x, snake[i].y, 
-          snake[i].x + box, snake[i].y + box
+          segment.x, segment.y, 
+          segment.x + box, segment.y + box
         );
         
         if (i === 0) {
@@ -45,9 +41,8 @@ export default function SnakeGame() {
         }
         
         ctx.fillStyle = gradient;
-        ctx.fillRect(snake[i].x, snake[i].y, box, box);
+        ctx.fillRect(segment.x, segment.y, box, box);
         
-        // Add subtle shadow
         ctx.shadowColor = 'rgba(0, 0, 0, 0.2)';
         ctx.shadowBlur = 3;
         ctx.shadowOffsetX = 2;
@@ -55,73 +50,100 @@ export default function SnakeGame() {
         
         ctx.strokeStyle = i === 0 ? '#00ffcc' : '#004d33';
         ctx.lineWidth = 2;
-        ctx.strokeRect(snake[i].x, snake[i].y, box, box);
-        ctx.shadowBlur = 0; // Reset shadow
-      }
+        ctx.strokeRect(segment.x, segment.y, box, box);
+        ctx.shadowBlur = 0;
+      });
 
-      // Draw food with better visual
+      // Draw food
       ctx.beginPath();
-      ctx.arc(food.x + box/2, food.y + box/2, box/2, 0, Math.PI * 2);
+      ctx.arc(
+        gameState.current.food.x + box/2, 
+        gameState.current.food.y + box/2, 
+        box/2, 
+        0, 
+        Math.PI * 2
+      );
       ctx.fillStyle = '#ff3366';
       ctx.fill();
       ctx.strokeStyle = '#ff0033';
       ctx.lineWidth = 2;
       ctx.stroke();
 
-      // Move
-      const head = { ...snake[0] };
+      // Move snake
+      const head = { ...gameState.current.snake[0] };
       if (direction === "LEFT") head.x -= box;
       if (direction === "RIGHT") head.x += box;
       if (direction === "UP") head.y -= box;
       if (direction === "DOWN") head.y += box;
 
-      // Game over conditions
+      // Check collisions
       if (
         head.x < 0 ||
         head.x >= canvasSize ||
         head.y < 0 ||
         head.y >= canvasSize ||
-        snake.some((seg) => seg.x === head.x && seg.y === head.y)
+        gameState.current.snake.some(seg => seg.x === head.x && seg.y === head.y)
       ) {
-        clearInterval(game);
+        clearInterval(gameLoop);
         setGameOver(true);
         setHighScore(prev => Math.max(prev, score));
         return;
       }
 
-      snake.unshift(head);
+      gameState.current.snake.unshift(head);
 
-      // Eat food
-      if (head.x === food.x && head.y === food.y) {
-        food = {
-          x: Math.floor(Math.random() * totalBoxes) * box,
-          y: Math.floor(Math.random() * totalBoxes) * box,
+      // Check if food eaten
+      if (head.x === gameState.current.food.x && head.y === gameState.current.food.y) {
+        gameState.current.food = {
+          x: Math.floor(Math.random() * 20) * 20,
+          y: Math.floor(Math.random() * 20) * 20,
         };
         setScore(prev => prev + 1);
       } else {
-        snake.pop();
+        gameState.current.snake.pop();
       }
     };
 
-    const game = setInterval(draw, 150);
+    const gameLoop = setInterval(draw, 150);
 
     const keyHandler = (e) => {
-      if (e.key === "ArrowLeft" && direction !== "RIGHT") direction = "LEFT";
-      if (e.key === "ArrowUp" && direction !== "DOWN") direction = "UP";
-      if (e.key === "ArrowRight" && direction !== "LEFT") direction = "RIGHT";
-      if (e.key === "ArrowDown" && direction !== "UP") direction = "DOWN";
+      if (e.key === "ArrowLeft" && direction !== "RIGHT") setDirection("LEFT");
+      if (e.key === "ArrowUp" && direction !== "DOWN") setDirection("UP");
+      if (e.key === "ArrowRight" && direction !== "LEFT") setDirection("RIGHT");
+      if (e.key === "ArrowDown" && direction !== "UP") setDirection("DOWN");
     };
 
     window.addEventListener("keydown", keyHandler);
 
     return () => {
-      clearInterval(game);
+      clearInterval(gameLoop);
       window.removeEventListener("keydown", keyHandler);
     };
-  }, [restartKey]);
+  }, [restartKey, direction, score]);
 
   const handleRestart = () => {
-    setRestartKey((prev) => prev + 1);
+    gameState.current = {
+      snake: [{ x: 9 * 20, y: 10 * 20 }],
+      food: {
+        x: Math.floor(Math.random() * 20) * 20,
+        y: Math.floor(Math.random() * 20) * 20,
+      }
+    };
+    setDirection("RIGHT");
+    setGameOver(false);
+    setScore(0);
+    setRestartKey(prev => prev + 1);
+  };
+
+  const changeDirection = (newDirection) => {
+    if (
+      (newDirection === "LEFT" && direction !== "RIGHT") ||
+      (newDirection === "RIGHT" && direction !== "LEFT") ||
+      (newDirection === "UP" && direction !== "DOWN") ||
+      (newDirection === "DOWN" && direction !== "UP")
+    ) {
+      setDirection(newDirection);
+    }
   };
 
   return (
@@ -170,8 +192,54 @@ export default function SnakeGame() {
           )}
         </div>
 
-        <div className="mt-5 text-gray-400 text-sm tracking-wide select-none">
-          <p>Use arrow keys to control the snake</p>
+        {/* Arrow Controls */}
+        <div className="mt-6 flex flex-col items-center">
+          <div className="grid grid-cols-3 gap-2 w-full max-w-[200px]">
+            <div className="col-start-2">
+              <button
+                onClick={() => changeDirection("UP")}
+                className="w-full bg-gray-700 hover:bg-gray-600 active:bg-gray-500 text-white p-4 rounded-lg shadow-md flex justify-center items-center"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                </svg>
+              </button>
+            </div>
+            <div className="col-start-1 row-start-2">
+              <button
+                onClick={() => changeDirection("LEFT")}
+                className="w-full bg-gray-700 hover:bg-gray-600 active:bg-gray-500 text-white p-4 rounded-lg shadow-md flex justify-center items-center"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+            </div>
+            <div className="col-start-3 row-start-2">
+              <button
+                onClick={() => changeDirection("RIGHT")}
+                className="w-full bg-gray-700 hover:bg-gray-600 active:bg-gray-500 text-white p-4 rounded-lg shadow-md flex justify-center items-center"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            </div>
+            <div className="col-start-2 row-start-3">
+              <button
+                onClick={() => changeDirection("DOWN")}
+                className="w-full bg-gray-700 hover:bg-gray-600 active:bg-gray-500 text-white p-4 rounded-lg shadow-md flex justify-center items-center"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-5 text-gray-400 text-sm tracking-wide select-none text-center">
+          <p>Use arrow keys or buttons to control the snake</p>
         </div>
       </div>
     </div>
