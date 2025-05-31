@@ -9,8 +9,8 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['icon-192.png'],
       manifest: {
-        short_name: 'TicTacToe',
-        name: 'Tic Tac Toe Game',
+        short_name: 'GamingHub',
+        name: 'Gaming Hub',
         icons: [
           {
             src: 'tictactoe.png',
