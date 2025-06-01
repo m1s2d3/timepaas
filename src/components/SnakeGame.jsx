@@ -508,7 +508,7 @@ export default function SnakeGame({onBack}) {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 p-6">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 p-4">
       <div className="w-full max-w-md bg-gray-800/90 backdrop-blur-md rounded-2xl shadow-xl border border-gray-700 p-8">
       <div className="absolute top-6 left-4">
       <button 
@@ -518,8 +518,8 @@ export default function SnakeGame({onBack}) {
   ←
 </button>
         </div>
-        <div className="flex justify-between items-center mt-6 mb-6">
-          <h1 className="text-3xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-teal-500">
+        <div className="flex justify-between items-center mt-6 mb-4">
+          <h1 className="text-2xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-teal-500">
             Snake Game
           </h1>
           <div className="flex gap-5">
@@ -562,8 +562,8 @@ export default function SnakeGame({onBack}) {
         </div>
 
         {/* Arrow Controls */}
-        <div className="mt-6 flex flex-col items-center">
-          <div className="grid grid-cols-3 gap-2 w-full max-w-[200px]">
+        <div className="mt-4 flex flex-col items-center">
+          <div className="grid grid-cols-3 gap-1 w-full max-w-[200px]">
             <div className="col-start-2">
               <button
                 onClick={() => changeDirection("UP")}
