@@ -115,10 +115,10 @@ export default function App() {
                     />
                   </div>
                   <div className="w-full md:w-1/2 text-white text-center md:text-left">
-                    <h2 className={`text-2xl md:text-3xl font-bold mb-3 md:mb-4 text-transparent bg-clip-text bg-gradient-to-r ${currentTextGradient}`}>
+                    <h2 className={`text-2xl md:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r ${currentTextGradient}`}>
                       {carouselItems[carouselIndex].title}
                     </h2>
-                    <p className="text-base md:text-lg mb-4 md:mb-6 text-white/80">
+                    <p className="text-base md:text-lg text-white/80">
                       {carouselItems[carouselIndex].description}
                     </p>
                     <div className="hidden md:flex gap-2 mb-8 justify-center md:justify-start">
@@ -162,7 +162,7 @@ export default function App() {
               </div>
             </div>
 
-            <div className="mt-6 md:mt-8 text-center">
+            <div className="text-center">
               <button
                 className={`px-6 py-3 md:px-8 md:py-4 bg-gradient-to-r ${currentButtonTheme} text-white text-lg md:text-xl font-bold rounded-full shadow-lg hover:shadow-xl transform transition-all duration-300 hover:scale-105`}
                 onClick={() => {
@@ -178,7 +178,7 @@ export default function App() {
 
           <div className="bg-black/20 text-white/70 text-center p-3 md:p-4 text-xs md:text-sm">
             <div className="flex flex-col md:flex-row items-center justify-between">
-              <div className="flex items-center justify-center gap-2 mb-2 md:mb-0">
+              <div className="flex items-center justify-center gap-2">
                 <p>Created by <strong className="text-white">Mohd Shamshad</strong></p>
                 <img 
                   src="developer.png" 
