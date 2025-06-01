@@ -3,7 +3,7 @@ import coinEatSound from "../sounds/eat.mp3";
 import appleEatSound from "../sounds/eat.mp3";
 import gameOverSound from "../sounds/game-over.mp3";
 
-export default function SnakeGame() {
+export default function SnakeGame({onBack}) {
   const canvasRef = useRef(null);
   const [gameOver, setGameOver] = useState(false);
   const [score, setScore] = useState(0);
@@ -510,7 +510,15 @@ export default function SnakeGame() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 p-6">
       <div className="w-full max-w-md bg-gray-800/90 backdrop-blur-md rounded-2xl shadow-xl border border-gray-700 p-8">
-        <div className="flex justify-between items-center mb-6">
+      <div className="absolute top-6 left-4">
+      <button 
+  className="bg-gradient-to-r from-green-500 to-teal-600 hover:from-green-600 hover:to-teal-700 px-2 py-1 rounded-full text-sm font-semibold shadow-lg transition-transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-green-400"
+  onClick={onBack}
+>
+  ←
+</button>
+        </div>
+        <div className="flex justify-between items-center mt-6 mb-6">
           <h1 className="text-3xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-teal-500">
             Snake Game
           </h1>
@@ -597,10 +605,6 @@ export default function SnakeGame() {
               </button>
             </div>
           </div>
-        </div>
-
-        <div className="mt-5 text-gray-400 text-sm tracking-wide select-none text-center">
-          <p>Eat gold coins (+1) and red apples (+2)!</p>
         </div>
       </div>
     </div>
