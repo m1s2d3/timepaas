@@ -212,17 +212,9 @@ export default function App() {
   }
 
   if (selectedGame === "snake") {
-    return (
-      <div className="relative">
-        <button 
-          className="absolute top-4 left-4 z-50 bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-lg shadow-lg transition-all backdrop-blur-sm"
-          onClick={() => setShowSplash(true)}
-        >
-          ⬅ Back to Menu
-        </button>
-        <SnakeGame />
-      </div>
-    );
+    return <SnakeGame onBack={() => setShowSplash(true)} />
+     
+    
   }
 
   if (selectedGame === "tictactoe") {
