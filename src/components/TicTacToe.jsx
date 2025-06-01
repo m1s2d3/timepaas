@@ -102,19 +102,23 @@ export default function TicTacToe({ onBack }) {
         ))}
       </div>
 
-      <button 
-        className="absolute top-6 left-6 z-50 bg-gradient-to-br from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 px-5 py-2 rounded-3xl text-lg font-semibold shadow-lg transition-transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-purple-400"
-        onClick={onBack}
-      >
-        ← Back to Menu
-      </button>
+      <div className="max-w-md w-full bg-gradient-to-br from-indigo-700/90 via-purple-800/90 to-pink-700/90 rounded-3xl shadow-2xl p-3 flex flex-col items-center relative z-10 backdrop-blur-sm border border-white/20">
 
-      <div className="max-w-md w-full bg-gradient-to-br from-indigo-700/90 via-purple-800/90 to-pink-700/90 rounded-3xl shadow-2xl p-8 flex flex-col items-center relative z-10 backdrop-blur-sm border border-white/20">
-        <header className="text-center mb-6">
-          <h1 className="text-5xl font-extrabold mb-1 text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-400">
+        {/* Back Button - Inside Game Box, Top Left Corner */}
+        <div className="absolute top-6 left-4">
+          <button 
+            className="bg-gradient-to-br from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 px-4 py-1.5 rounded-2xl text-sm font-semibold shadow-lg transition-transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-purple-400"
+            onClick={onBack}
+          >
+            ←
+          </button>
+        </div>
+
+        <header className="text-center">
+          <h1 className="text-4xl mt-4 font-extrabold mb-1 text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-400">
             Tic Tac Toe
           </h1>
-          <p className="text-purple-200 font-medium tracking-wide">
+          <p className="text-purple-200 text-sm tracking-wide">
             Play against a friend or the computer
           </p>
         </header>
@@ -125,7 +129,7 @@ export default function TicTacToe({ onBack }) {
               setMode("single");
               resetGame();
             }}
-            className={`px-6 py-3 rounded-3xl border-2 border-white/70 transition-all shadow-md 
+            className={`px-6 py-3  rounded-3xl border-2 border-white/70 transition-all shadow-md 
               ${mode === "single" ? "bg-white text-indigo-700 font-bold" : "bg-transparent text-white hover:bg-white/20"}`}
           >
             Single Player
@@ -142,7 +146,7 @@ export default function TicTacToe({ onBack }) {
           </button>
         </div>
 
-        <p className="text-lg mb-6 font-semibold drop-shadow-md tracking-wide">
+        <p className="text-md mb-4 font-semibold drop-shadow-md tracking-wide">
           {!winner
             ? isXNext
               ? "Player X's turn"
@@ -168,7 +172,7 @@ export default function TicTacToe({ onBack }) {
               onClick={() => handleClick(index)}
               disabled={board[index] !== null || winner}
               className={`
-                aspect-square rounded-3xl flex items-center justify-center text-7xl font-extrabold
+                aspect-square rounded-3xl flex items-center justify-center text-5xl font-extrabold
                 transition-transform duration-300 ease-in-out
                 ${
                   board[index] === "X"
