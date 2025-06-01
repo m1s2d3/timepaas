@@ -107,7 +107,7 @@ export default function TicTacToe({ onBack }) {
         {/* Back Button - Inside Game Box, Top Left Corner */}
         <div className="absolute top-6 left-4">
           <button 
-            className="bg-gradient-to-br from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 px-4 py-1.5 rounded-2xl text-sm font-semibold shadow-lg transition-transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-purple-400"
+            className="bg-gradient-to-br from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 px-2 py-1 rounded-2xl text-sm font-semibold shadow-lg transition-transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-purple-400"
             onClick={onBack}
           >
             ←
