@@ -83,7 +83,7 @@ export default function TicTacToe({ onBack }) {
   };
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-800 flex flex-col items-center justify-center p-6 relative text-white overflow-hidden">
+    <div className="min-h-screen w-full bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-800 flex flex-col items-center justify-center p-4 relative text-white overflow-hidden">
       {/* Floating bubbles background */}
       <div className="absolute inset-0 overflow-hidden">
         {[...Array(15)].map((_, i) => (
@@ -195,7 +195,7 @@ export default function TicTacToe({ onBack }) {
 
         <button
           onClick={resetGame}
-          className="mt-8 px-8 py-3 rounded-3xl bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 font-bold text-white shadow-lg transition-transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-purple-400"
+          className="mt-6 mb-4 px-8 py-3 rounded-3xl bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 font-bold text-white shadow-lg transition-transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-purple-400"
         >
           Reset Game
         </button>
